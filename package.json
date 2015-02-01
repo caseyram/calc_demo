@@ -1,0 +1,12 @@
+{
+  "name": "calc_demo",
+  "dependencies": {
+    "express": "4.x",
+    "connect-assets": "2.5.x",
+    "requirejs": "^2.1.15"
+  },
+  "engines": {
+    "node": "~0.10.x",
+    "npm": "1.2.x"
+  }
+}
