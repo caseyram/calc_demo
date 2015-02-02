@@ -6,11 +6,13 @@ define([], function() {
     var _operandRight;
     var _result;
     var _operation;
+    var _lastInput;
 
     function clear() {
       _operandLeft = "0";
       _operandRight = "0";
       _operation = "";
+      _lastInput = "";
       return _result = "0";
     }
 
@@ -19,10 +21,21 @@ define([], function() {
     function setNumber(x) {
       var target = "";
 
+      // Starting a new operation with last operand
+      if(_lastInput == "=") {
+        _operandLeft = _operandRight;
+        _operandRight = "0";
+      }
+
       if(_operation == "") {
         target = _operandLeft;
       } else {
         target = _operandRight
+      }
+
+      // Only 1 decimal allowed
+      if(x == "." && target.match(/\./)) {
+        return;
       }
 
       if(target != "0") {
@@ -38,6 +51,7 @@ define([], function() {
         }
       }
 
+      _lastInput = x;
       if(_operation == "") {
         return _result = _operandLeft = target;
       } else {
@@ -45,12 +59,33 @@ define([], function() {
       }
     }
 
-    // Result will return the latest entered or
+    function execute() {
+      if(_operation != "") {
+        if(_operandRight == "0" || _operandRight == "") {
+          _operandRight = _operandLeft;
+        }
+        // A fun way to simplify how we perform the operation
+        // eval lets us create a string and run it on demand
+        return _operandLeft = _result = eval(_operandLeft + _operation + Number(_operandRight)) + "";
+      }
+    }
+
+    //
+    // Public Result Function
+    //
+    // Use this function to get the display result of the calculator
     this.result = function() {
       return _result;
     };
 
+    //
+    // Public Input Function
+    //
+    // Use this function to enter calculator input character events
     this.input = function(x) {
+      if(!(x + "").match(/[0-9cx\=\+\-\*\/\.]/i)) {
+        return;
+      }
       var number = Number(x);
 
       // Have we a number?
@@ -60,10 +95,7 @@ define([], function() {
 
       // A decimal?
       if(x == ".") {
-        // Only 1 allowed
-        if(!this.result().match(/\./)) {
-          return setNumber(x);
-        }
+        return setNumber(x);
       }
 
       // Clear?
@@ -73,17 +105,25 @@ define([], function() {
 
       // Add Subtract Multiply or Divide?
       if(x.match(/^[\+\-x*\/]$/i)) {
-        if(x.match(/x/)) {
+        if(x.match(/x/i)) {
           x = "*";
         }
-        return _operation = x;
+        if(_operation != "" && _lastInput != "=") {
+          _result = execute();
+          _operandRight = "0";
+        } else if(_lastInput == "=") {
+          _operandLeft = _result;
+          _operandRight = "0";
+        }
+        _operation = x;
+        _lastInput = x;
+        return _operandLeft;
       }
 
       // Execute
       if(x == "=") {
-        // A fun way to simplify how we perform the operation
-        // eval lets us create a string and run it on demand
-        return _operandLeft =_result = eval(_operandLeft + _operation + _operandRight);
+        _lastInput = x;
+        return execute();
       }
     };
   };

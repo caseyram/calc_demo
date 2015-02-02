@@ -89,6 +89,13 @@ describe('Calculator', function() {
       assert.equal("20", calculator.result());
     });
 
+    it('should execute the multiply command when passed [number, "X", number, "="]', function() {
+      calculator.input("5");
+      calculator.input("X");
+      calculator.input("4");
+      calculator.input("=");
+      assert.equal("20", calculator.result());
+    });
 
     it('should execute the multiply command when passed [number, "*", number, "="]', function() {
       calculator.input("5");
@@ -123,5 +130,123 @@ describe('Calculator', function() {
       calculator.input("=");
       assert.equal("13", calculator.result());
     });
-  })
+
+    it('should execute the current operation and then prepare the next operation when passed [number, "+", number, "-", number, "="]', function() {
+      calculator.input("5");
+      calculator.input("+");
+      calculator.input("4");
+      calculator.input("-");
+      assert.equal("9", calculator.result());
+      calculator.input("4");
+      calculator.input("=");
+      assert.equal("5", calculator.result());
+    });
+
+    it('should correctly use the result of an operation as the left operand in a new operation [number, "+", number, "=", "-", number, "="]', function() {
+      calculator.input("5");
+      calculator.input("+");
+      calculator.input("4");
+      calculator.input("=");
+      assert.equal("9", calculator.result());
+      calculator.input("-");
+      calculator.input("4");
+      calculator.input("=");
+      assert.equal("5", calculator.result());
+    });
+
+    it('should allow a decimal after a + operator [number, "+", ".", number, "="]', function() {
+      calculator.input("5");
+      calculator.input("+");
+      calculator.input(".");
+      assert.equal("0.", calculator.result());
+      calculator.input("4");
+      assert.equal("0.4", calculator.result());
+      calculator.input("=");
+      assert.equal("5.4", calculator.result());
+    });
+
+    it('should allow a decimal after a - operator [number, "-", ".", number, "="]', function() {
+      calculator.input("5");
+      calculator.input("-");
+      calculator.input(".");
+      assert.equal("0.", calculator.result());
+      calculator.input("4");
+      assert.equal("0.4", calculator.result());
+      calculator.input("=");
+      assert.equal("4.6", calculator.result());
+    });
+
+    it('should allow a decimal after a * operator [number, "*", ".", number, "="]', function() {
+      calculator.input("5");
+      calculator.input("*");
+      calculator.input(".");
+      assert.equal("0.", calculator.result());
+      calculator.input("4");
+      assert.equal("0.4", calculator.result());
+      calculator.input("=");
+      assert.equal("2", calculator.result());
+    });
+
+    it('should allow a decimal after a / operator [number, "/", ".", number, "="]', function() {
+      calculator.input("5");
+      calculator.input("/");
+      calculator.input(".");
+      assert.equal("0.", calculator.result());
+      calculator.input("4");
+      assert.equal("0.4", calculator.result());
+      calculator.input("=");
+      assert.equal("12.5", calculator.result());
+    });
+
+    it('should allow a decimal after an execution and a + operator [number, "+", number, "=", "+", ".", number, "=", "+", ".", number, "="]', function() {
+      calculator.input("5");
+      calculator.input("+");
+      calculator.input("4");
+      calculator.input("=");
+      assert.equal("9", calculator.result());
+      calculator.input("+");
+      calculator.input(".");
+      assert.equal("0.", calculator.result());
+      calculator.input("4");
+      assert.equal("0.4", calculator.result());
+      calculator.input("=");
+      assert.equal("9.4", calculator.result());
+      calculator.input("+");
+      assert.equal("9.4", calculator.result());
+      calculator.input(".");
+      assert.equal("0.", calculator.result());
+      calculator.input("4");
+      assert.equal("0.4", calculator.result());
+      calculator.input("=");
+      assert.equal("9.8", calculator.result());
+    });
+
+    it('should not allow spaces in an operand value', function() {
+      calculator.input("5");
+      calculator.input(" ");
+      calculator.input("5");
+      assert.equal("55", calculator.result());
+    });
+
+    it('should move the right operand to the left and replace the right operand after an =', function() {
+      calculator.input("5");
+      calculator.input("+");
+      calculator.input("6");
+      calculator.input("=");
+      assert.equal("11", calculator.result());
+      calculator.input("4");
+      assert.equal("4", calculator.result());
+      calculator.input("=");
+      assert.equal("10", calculator.result());
+    });
+
+    it('should duplicate the operand when pressing = after an operator', function() {
+      calculator.input("5");
+      calculator.input("+");
+      calculator.input("=");
+      assert.equal("10", calculator.result());
+      calculator.input("=");
+      assert.equal("15", calculator.result());
+    });
+  });
 });
