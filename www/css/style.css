@@ -1,0 +1,78 @@
+body {
+  margin: 0;
+  padding: 0 20px;
+  box-sizing:border-box;
+  border: 0;
+  background: #B8B3B1;
+  min-height: 100%;
+}
+
+/* The Central Focus */
+body > div {
+  margin: 20px auto;
+  max-width: 500px;
+  min-width: 300px;
+  height:100%;
+  position: relative;
+  background: #FFF;
+  border:1px solid #444;
+  padding:30px 20px;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+
+h1 {
+  font-family: Helvetica, verdana, sans-serif;
+  text-align: center;
+  font-size: 1.75rem;
+}
+
+/* Our Communication Mechanism */
+input {
+  top: 0px;
+  right: 0px;
+  width: 100%;
+  text-align: right;
+  padding: 10px;
+  box-sizing: border-box;
+  background: #FFFFEF;
+  font-size: 1.5rem;
+}
+input:disabled {
+  color:#0A0A8C;
+}
+
+#buttons {
+  max-width: 240px;
+  margin: 0 auto;
+}
+
+.clear {
+  clear:both;
+}
+
+/* Ensures all buttons have similar styling */
+button {
+  padding:5px;
+  font-size: 1.25rem;
+  margin:10px;
+  width:40px;
+  height:40px;
+  float:left;
+}
+
+/* This next section is for button position and sizing */
+
+#add {
+  height: 100px;
+  float:right;
+}
+
+#run {
+  height: 100px;
+  float:right;
+}
+
+#number0 {
+  width:100px;
+}
