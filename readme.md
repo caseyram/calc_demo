@@ -22,6 +22,10 @@ Open your browser and navigate to <http://localhost:8080/>. Once there you'll be
 
 # Running The Tests
 
-You'll be excited to hear that all of the functions described above have been tested. And you yourself can verify this. Simply run this command in your console:
+You'll be excited to hear that all of the functions described above have been tested. And you yourself can verify this. You'll need to install the mocha package. You can do this by running the command:
+
+  `npm install mocha -g`
+
+Then, to run the tests simply run this command in your console:
 
   `mocha www/js/calculator_spec`
